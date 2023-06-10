@@ -31,7 +31,11 @@ public class SortingAlgorithms {
         Record rSelected;
         int i;
         int j;
-        
+        long endTime;
+        long startTime; 
+
+        // Record start time
+        startTime = System.currentTimeMillis();
 
         for(i=1; i<n;i++){
 
@@ -53,6 +57,10 @@ public class SortingAlgorithms {
 
         }
 
+        // Record end time
+        endTime = System.currentTimeMillis();
+        System.out.println("Execution time of sorting least to greatest(top - bot): " + (endTime-startTime) +" ms");
+
 
 
 
@@ -63,6 +71,11 @@ public class SortingAlgorithms {
         int nMin;
         int i;
         int j;
+        long endTime;
+        long startTime; 
+
+        // Record start time
+        startTime = System.currentTimeMillis();
 
         for(i = 0; i < n; i++)
         {
@@ -81,6 +94,10 @@ public class SortingAlgorithms {
                 swapRec(arr, i, nMin);
             }
         }
+
+        // Record end time
+        endTime = System.currentTimeMillis();
+        System.out.println("Execution time of sorting least to greatest(top - bot): " + (endTime-startTime) +" ms");
 
 
     }
