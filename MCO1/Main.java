@@ -7,8 +7,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Main {
+
+    private static final String SORT_DIREC = "SortResult/";
     public static void main(String[] args) {
         // TODO: Use this method to run your experiments.
+
+
+        long endTime;
+        long startTime; 
 
         Main md = new Main();
 
@@ -45,15 +51,29 @@ public class Main {
         Record[] records = fr.readFile(filePath);
 
 
+        System.out.println();
+
         // Change this code to test different sorting algos
         // Sorts the records using insertion sort
         if (records != null){
+
+            // Record start time
+            startTime = System.currentTimeMillis();
+
             SA.insertionSort(records, records.length);
+
+            // Record end time
+            endTime = System.currentTimeMillis();
+
+            System.out.println("Execution time of sorting least to greatest(top - bot): " + (endTime-startTime) +" ms");
+
+        } else{
+            System.out.println("ERROR! Records are empty, please rerun and provide again");
         }
         
 
         md.writeToFile(filePath, records);
-        
+
 
         // Code below commented for checking records via System print DO NOT USE FOR MORE THAN 100 DATA
         // for(Record r: test_records2){
@@ -72,10 +92,12 @@ public class Main {
     }
 
 
-    public void writeToFile(String filePath, Record[] records){
+    private void writeToFile(String filePath, Record[] records){
         int dataSetSize;
         
         File givenFile = new File(filePath);
+
+        String newFilePath;
 
         dataSetSize = 0;
 
@@ -100,7 +122,11 @@ public class Main {
 
             // Write to file
             try {
-                FileWriter myWriter = new FileWriter(filePath);
+                // Put the results in a folder "SortResult"
+                newFilePath = SORT_DIREC + filePath;
+
+                // File writer will now store it in "SortResult"
+                FileWriter myWriter = new FileWriter(newFilePath);
                 
 
                 // Start by stating the size of the file
