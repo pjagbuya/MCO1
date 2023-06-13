@@ -92,9 +92,57 @@ public class SortingAlgorithms {
 
     }
 
-    public void mergeSort(Record[] arr, int p, int r) {
-        // TODO: Implement this sorting algorithm here.
+    private void merge(Record arr[], int p, int r, int mid) {
+        int size1 = mid - p + 1;
+        int size2 = r - mid;
+        Record temp1[] = new Record[size1];
+        Record temp2[] = new Record[size2];
+        int i;
+ 
+        for (i = 0; i < size1 || i < size2; i++) {
+            if (i < size1)
+                temp1[i] = arr[p + i];
+            
+            if (i < size2)
+                temp2[i] = arr[mid + i + 1];
+        }
+ 
+        i = 0;
+        int j = 0;
+        int k = p;
+        while (i < size1 && j < size2) {
+            if (temp1[i].getIdNumber() < temp2[j].getIdNumber()) {
+                arr[k] = temp1[i];
+                i++;
+            }
+            else {
+                arr[k] = temp2[j];
+                j++;
+            }
+            k++;
+        }
+ 
+        while (i < size1) {
+            arr[k] = temp1[i];
+            i++;
+            k++;
+        }
+ 
+        while (j < size2) {
+            arr[k] = temp2[j];
+            j++;
+            k++;
+        }
+    }
 
+    public void mergeSort(Record[] arr, int p, int r) {
+        int mid = p + (r - p) / 2;
+
+        if (p < r) {
+            mergeSort(arr, p, mid);
+            mergeSort(arr, mid + 1, r);
+            merge(arr, p, r, mid);
+        }
     }
 
     /*
