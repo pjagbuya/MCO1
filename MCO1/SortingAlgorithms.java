@@ -104,10 +104,11 @@ public class SortingAlgorithms {
      */
 
     /**
-     * T(n) = k(11n + 35) + 2, where k = max no. of digits in <code>arr</code>.
+     * T(n) = k(11n + 35) + 4n + 4, where k = max no. of digits in 
+     * <code>arr</code>.
      */
     public void radixSort(Record[] arr, int n) {
-        int arrMax = max(arr, n);                                                   // 1
+        int arrMax = max(arr, n);                                                   // 4n + 4
 
         for (int k = 1; arrMax / k > 0; k *= 10) {                                  // k + 1, where k = max no. of digits in arr
             countingSort(arr, n, k);                                                // (k)(11n + 34)
