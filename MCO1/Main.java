@@ -2,6 +2,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+
+
 // added the ff
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +11,7 @@ import java.io.FileNotFoundException;
 public class Main {
 
     private static final String SORT_DIREC = "SortResult/";
+    
     public static void main(String[] args) {
         // TODO: Use this method to run your experiments.
 
@@ -30,9 +33,13 @@ public class Main {
 
         String filePath;
         String filePathSubTxt;
+        int inputSortAlgo;
 
-        System.out.print("Enter the filepath of your file, should end with '.txt': ");
+        System.out.print("Enter the relative filepath of your file, should end with '.txt': ");
         filePath = sc.nextLine();
+
+ 
+        
 
         /**
          * This section just checks if you have .txt or not
@@ -47,25 +54,86 @@ public class Main {
         if ( !filePathSubTxt.equals(".txt") ){
             filePath += ".txt";
         }
+
+
         
         Record[] records = fr.readFile(filePath);
 
 
         System.out.println();
 
+
+        inputSortAlgo = 0;
+        while(inputSortAlgo <= 0 || inputSortAlgo > 4){
+
+            System.out.println("Choose from the following: ");
+            System.out.println("[1] - Insertion Sort");
+            System.out.println("[2] - Selection Sort");
+            System.out.println("[3] - Merge Sort");
+            System.out.println("[4] - Radix Sort");
+
+            inputSortAlgo = sc.nextInt();
+
+            if(inputSortAlgo > 4 || inputSortAlgo <= 0)
+                System.out.println("Error input!");
+
+        }
+ 
+
         // Change this code to test different sorting algos
         // Sorts the records using insertion sort
         if (records != null){
 
-            // Record start time
-            startTime = System.currentTimeMillis();
+            
 
+            startTime = 0;
+            endTime = 0;
+            switch(inputSortAlgo){
+                case 1:
+                    // Record start time
+                    startTime = System.currentTimeMillis();
+                    SA.insertionSort(records, records.length);
+                    // Record end time
+                    endTime = System.currentTimeMillis();
+
+                    break;
+
+                case 2:
+                    // Record start time
+                    startTime = System.currentTimeMillis();
+                    SA.selectionSort(records, records.length);
+                    // Record end time
+                    endTime = System.currentTimeMillis();
+
+                    break;
+                case 3:
+                    // Record start time
+                    startTime = System.currentTimeMillis();
+                    // missing one more parameter
+                    //SA.mergeSort(records, records.length);
+                    // Record end time
+                    endTime = System.currentTimeMillis();
+
+                    break;
+                case 4:                
+                    // Record start time
+                    startTime = System.currentTimeMillis();
+                    SA.radixSort(records, records.length);
+                    // Record end time
+                    endTime = System.currentTimeMillis();
+
+                    break;
+            }
+
+            // Sorting algo to choose
             SA.insertionSort(records, records.length);
 
-            // Record end time
-            endTime = System.currentTimeMillis();
+            
 
+
+            Paint.turnOnYellow();
             System.out.println("Execution time of sorting least to greatest(top - bot): " + (endTime-startTime) +" ms");
+            Paint.turnOffColor();
 
         } else{
             System.out.println("ERROR! Records are empty, please rerun and provide again");
@@ -96,6 +164,7 @@ public class Main {
         int dataSetSize;
         
         File givenFile = new File(filePath);
+    
 
         String newFilePath;
 
@@ -114,8 +183,18 @@ public class Main {
 
         }
         
-
-        
+        System.out.println(filePath);
+        if(filePath.indexOf('\\') != -1){
+            System.out.println(filePath.lastIndexOf('\\'));
+            
+            filePath = filePath.substring(filePath.lastIndexOf('\\')+1);
+            
+            
+        } else if(filePath.indexOf('/') != -1){
+            System.out.println(filePath.lastIndexOf('/'));
+            
+            filePath = filePath.substring(filePath.lastIndexOf('/')+1);
+        }
 
         if (filePath != null){
              
@@ -142,7 +221,10 @@ public class Main {
                     
                 }
                 myWriter.close();
+
+                Paint.turnOnGreen();
                 System.out.println("Successfully wrote to the file.");
+                Paint.turnOffColor();
 
             } catch (IOException e) {
                 System.out.println("An error occurred.");

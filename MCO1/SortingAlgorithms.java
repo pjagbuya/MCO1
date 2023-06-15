@@ -103,7 +103,7 @@ public class SortingAlgorithms {
      * records
      */
 
-    public void radixSort(Record[] arr, int p, int r) {
+    public void radixSort(Record[] arr, int n) {
 
         // TODO: Implement this sorting algorithm here.
 
