@@ -15,15 +15,17 @@ public class Main {
     private static final String SELECT_DIREC = "Selection/";
     private static final String MERGE_DIREC = "Merge/";
     private static final String RADIX_DIREC = "Radix/";
+
+    private static final int NS_AND_MS_BOUND = 1000;
     public static void main(String[] args) {
         // TODO: Use this method to run your experiments.
 
-
+        int i;
         long endTime;
         long startTime; 
 
         Main md = new Main();
-
+        
         FileReader fr = new FileReader();
 
         // Declare sorting algorithm
@@ -37,7 +39,15 @@ public class Main {
         String filePath;
         String filePathSubTxt;
         String userInputC;
+        
+        int dataSize;
         int inputSortAlgo;
+        int arrSize;
+        int loopSize;
+
+        long[] execTimes;
+        long sumTimes;
+        long aveTimes;
 
         userInputC = "y";
         while(userInputC.equalsIgnoreCase("y"))
@@ -86,69 +96,148 @@ public class Main {
                     System.out.println("Error input!");
 
             }
+            File f = new File(filePath);
+
+            
     
+            System.out.print("How many times do we execute this sort algo: ");
+            arrSize = sc.nextInt();
+            sc.nextLine(); //get newline
+            execTimes = new long[arrSize];
+            i = 0;
 
-            // Change this code to test different sorting algos
-            // Sorts the records using insertion sort
-            if (records != null){
+            dataSize = 0;
+            try{
+                Scanner scFile = new Scanner(f);
+                dataSize = scFile.nextInt();
 
-                
-
-                startTime = 0;
-                endTime = 0;
-
-                //Sort algo chosen
-                switch(inputSortAlgo){
-                    case 1:
-                        // Record start time
-                        startTime = System.currentTimeMillis();
-                        SA.insertionSort(records, records.length);
-                        // Record end time
-                        endTime = System.currentTimeMillis();
-
-                        break;
-
-                    case 2:
-                        // Record start time
-                        startTime = System.currentTimeMillis();
-                        SA.selectionSort(records, records.length);
-                        // Record end time
-                        endTime = System.currentTimeMillis();
-
-                        break;
-                    case 3:
-                        // Record start time
-                        startTime = System.currentTimeMillis();
-                        // missing one more parameter
-                        //SA.mergeSort(records, records.length);
-                        // Record end time
-                        endTime = System.currentTimeMillis();
-
-                        break;
-                    case 4:                
-                        // Record start time
-                        startTime = System.currentTimeMillis();
-                        SA.radixSort(records, records.length);
-                        // Record end time
-                        endTime = System.currentTimeMillis();
-
-                        break;
-                }
-
-           
-
-                
-
-
-                Paint.turnOnYellow();
-                System.out.println("Execution time of sorting least to greatest(top to bot): " + (endTime-startTime) +" ms");
-                Paint.turnOffColor();
-
-            } else{
-                System.out.println("ERROR! Records are empty, please rerun and provide again");
+            }catch (FileNotFoundException e){
+                System.err.println("File not found.");
+                e.printStackTrace();
             }
+
+            loopSize = arrSize;
+            while(loopSize> 0){
+                // Change this code to test different sorting algos
+                // Sorts the records using insertion sort
+                
+                if (records != null){
+
+                    
+
+                    startTime = 0;
+                    endTime = 0;
+
+                    //Sort algo chosen
+                    switch(inputSortAlgo){
+                        case 1:
+                            if(dataSize > NS_AND_MS_BOUND){
+                                // Record start time
+                                startTime = System.currentTimeMillis();
+                                SA.insertionSort(records, records.length);
+                                // Record end time
+                                endTime = System.currentTimeMillis();
+                            }else{
+                                // Record start time
+                                startTime = System.nanoTime();
+                                SA.insertionSort(records, records.length);
+                                // Record end time
+                                endTime = System.nanoTime();
+                            }
+
+
+                            break;
+
+                        case 2:
+                            if(dataSize > NS_AND_MS_BOUND){
+                                // Record start time
+                                startTime = System.currentTimeMillis();
+                                SA.selectionSort(records, records.length);
+                                // Record end time
+                                endTime = System.currentTimeMillis();
+                            }else{
+                                // Record start time
+                                startTime = System.nanoTime();
+                                SA.selectionSort(records, records.length);
+                                // Record end time
+                                endTime = System.nanoTime();
+                            }
+                            break;
+                        case 3:
+                            if(dataSize > NS_AND_MS_BOUND){
+                                // Record start time
+                                startTime = System.currentTimeMillis();
+                                // Missing one more parameter
+                                //SA.mergeSort(records, records.length);
+                                // Record end time
+                                endTime = System.currentTimeMillis();
+                            }else{
+                                // Record start time
+                                startTime = System.nanoTime();
+                                //SA.mergeSort(records, records.length);
+                                // Record end time
+                                endTime = System.nanoTime();
+                            }
+
+                            break;
+                        case 4:                
+                            if(dataSize > NS_AND_MS_BOUND){
+                                // Record start time
+                                startTime = System.currentTimeMillis();
+                                SA.radixSort(records, records.length);
+                                // Record end time
+                                endTime = System.currentTimeMillis();
+                            }else{
+                                // Record start time
+                                startTime = System.nanoTime();
+                                SA.radixSort(records, records.length);
+                                // Record end time
+                                endTime = System.nanoTime();
+                            }
+                            break;
+                    }
+
             
 
+                    
+
+
+                    
+                    if(dataSize > NS_AND_MS_BOUND){
+                        System.out.println("Execution time of sorting least to greatest(top to bot): " + Paint.paintTextYellow(endTime-startTime+" ms") );
+                    }
+                    else{
+                        System.out.println("Execution time of sorting least to greatest(top to bot): " + Paint.paintTextYellow(endTime-startTime+" ns"));
+                    }
+                    
+                    
+                    execTimes[i] = endTime-startTime;
+
+                } else{
+                    System.out.println("ERROR! Records are empty, please rerun and provide again");
+                }
+
+                
+                i++;
+                loopSize -= 1;
+            }
+
+            sumTimes = 0;
+            for(i=0; i < arrSize; i++){
+                sumTimes += execTimes[i];
+            }
+            aveTimes = sumTimes/arrSize;
+            System.out.println();
+            Paint.turnOnCyan();
+            if(dataSize > NS_AND_MS_BOUND){
+                System.out.println("The average execution time is: " + aveTimes + " ms");
+            }else{
+                System.out.println("The average execution time is: " + aveTimes + " ns");
+            }
+
+            Paint.turnOffColor();
+            System.out.println();
+            
             md.writeToFile(filePath, records, inputSortAlgo);
 
             System.out.print("Run again? (Y/N): ");
