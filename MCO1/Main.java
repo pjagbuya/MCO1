@@ -1,4 +1,5 @@
 import java.io.FileWriter;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -75,12 +76,15 @@ public class Main {
 
             
             Record[] records = fr.readFile(filePath);
+            
 
 
             System.out.println();
 
 
             inputSortAlgo = 0;
+
+
             while(inputSortAlgo <= 0 || inputSortAlgo > 4){
 
                 System.out.println("Choose from the following: ");
@@ -110,6 +114,7 @@ public class Main {
             try{
                 Scanner scFile = new Scanner(f);
                 dataSize = scFile.nextInt();
+                scFile.close();
 
             }catch (FileNotFoundException e){
                 System.err.println("File not found.");
@@ -117,6 +122,8 @@ public class Main {
             }
 
             loopSize = arrSize;
+
+            System.out.println("Execution time of sorting least to greatest(top to bot): ");
             while(loopSize> 0){
                 // Change this code to test different sorting algos
                 // Sorts the records using insertion sort
@@ -205,11 +212,11 @@ public class Main {
                     // Display each execution time
                     if(dataSize > NS_AND_MS_BOUND)
                     {
-                        System.out.println("Execution time of sorting least to greatest(top to bot): " + Paint.paintTextYellow(endTime-startTime+" ms") );
+                        System.out.println(Paint.paintTextYellow(endTime-startTime+" ms") );
                     }
                     else
                     {
-                        System.out.println("Execution time of sorting least to greatest(top to bot): " + Paint.paintTextYellow(endTime-startTime+" ns"));
+                        System.out.println(Paint.paintTextYellow(endTime-startTime+" ns"));
                     }
                     
                     
@@ -220,8 +227,11 @@ public class Main {
                 }
 
                 
+                
                 i++;
+      
                 loopSize -= 1;
+                records = fr.readFile(filePath);
             }
 
             sumTimes = 0;
