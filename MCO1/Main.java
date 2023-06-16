@@ -203,10 +203,12 @@ public class Main {
 
 
                     // Display each execution time
-                    if(dataSize > NS_AND_MS_BOUND){
+                    if(dataSize > NS_AND_MS_BOUND)
+                    {
                         System.out.println("Execution time of sorting least to greatest(top to bot): " + Paint.paintTextYellow(endTime-startTime+" ms") );
                     }
-                    else{
+                    else
+                    {
                         System.out.println("Execution time of sorting least to greatest(top to bot): " + Paint.paintTextYellow(endTime-startTime+" ns"));
                     }
                     

@@ -26,6 +26,7 @@ public class DataSetRandomizer{
         String userFileNameSubTxt;
         File myObj;
         int dataSetSize;
+        int dataSetCount;
 
         // Ask user fo rthe name of the file
         System.out.print("What is the name of the file: ");
@@ -59,59 +60,80 @@ public class DataSetRandomizer{
         else
             userFileNameSubTxt = "N/A";
 
-        // Check .txt substing if found, else appen a .txt
-        if (userFileNameSubTxt.equals(".txt")){
 
-            myObj = new File(userFileName);
-        } else{
-            myObj = new File(userFileName + ".txt");
-            userFileName += ".txt";
-        }
 
 
 
         
-        try{
-            
-            
-            
-            if (myObj.createNewFile()){
-                System.out.println("File created: " + myObj.getName());
+
+
+        System.out.print("How many copies of this do you want: ");
+        dataSetCount = sc.nextInt();
+        sc.nextLine();
+        int ind = 0;
+
+        while(dataSetCount > 0){
+            ind ++;
+
+            // Check .txt substing if found, else appen a .txt
+            if (userFileNameSubTxt.equals(".txt")){
+
+                myObj = new File(userFileName.replace(".txt", "-"+ind +".txt"));
+
+            } 
+            else{
+                myObj = new File(userFileName + ".txt");
+                userFileName += ".txt";
+            }
+            try{
                 
+                
+                
+                if (myObj.createNewFile()){
+                    System.out.println("File created: " + myObj.getName());
+                    
 
-            }
-            else {
+                }
+                else {
 
-                System.out.println("File already exists");
-            }
+                    System.out.println("File already exists");
+                }
 
+                
+            } catch (IOException e){
+                System.out.println("An error occured");
+                e.printStackTrace();
+            }            
+            // Write to file
+            try {
+                FileWriter myWriter = new FileWriter(userFileName);
+                Node[] nodeArray = generateInfoNodes(dataSetSize);
+                // Start by stating the size of the file
+                myWriter.write(dataSetSize + "\n");
+
+                // write line by line each object in the node
+                for(Node obj : nodeArray){
+                
+                    myWriter.write(obj.toString() + "\n");
+                }
+                myWriter.close();
+                System.out.println("Successfully wrote to the file.");
+
+                nodeArray = null;
             
-        } catch (IOException e){
-            System.out.println("An error occured");
-            e.printStackTrace();
+            }
+            
+            catch (IOException e) 
+            {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            
+            }
+
+            dataSetCount--;
         }
-
-
-        // Write to file
-        try {
-            FileWriter myWriter = new FileWriter(userFileName);
-            Node[] nodeArray = generateInfoNodes(dataSetSize);
-            // Start by stating the size of the file
-            myWriter.write(dataSetSize + "\n");
-
-            // write line by line each object in the node
-            for(Node obj : nodeArray){
-                
-                myWriter.write(obj.toString() + "\n");
-            }
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-
-            nodeArray = null;
-          } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-          }
+        
+        
         
         
 
