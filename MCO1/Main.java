@@ -1,5 +1,4 @@
 import java.io.FileWriter;
-
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -16,8 +15,191 @@ public class Main {
     private static final String SELECT_DIREC = "Selection/";
     private static final String MERGE_DIREC = "Merge/";
     private static final String RADIX_DIREC = "Radix/";
+    private static final String FOLDER_DIREC = "stockData";
 
     private static final int NS_AND_MS_BOUND = 1000;
+
+    public static int countFiles(final File folder){
+        int count;
+        count = 0;
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                countFiles(folder);
+            } else {
+                count++;
+            }
+        }
+    
+
+        return count;
+    }
+
+    public static void readFolders(final File folder, int inputSortAlgo, String folderName, String inputAllowWrite){
+        Main md = new Main();
+        long startTime;
+        long endTime;
+        long sumTimes;
+        long aveTimes;
+
+        Record[] records;
+        SortingAlgorithms SA = new SortingAlgorithms();
+        FileReader fr = new FileReader();
+        long[] execTimes;
+
+        int i;
+        int dataSize;
+        int arrSize;
+
+        arrSize = countFiles(folder);
+        dataSize = 0;
+        execTimes = new long[arrSize];
+        i=0;
+
+        
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                readFolders(fileEntry, inputSortAlgo, folderName, inputAllowWrite);
+            } else {
+                
+                records = fr.readFile(folderName + "/" + fileEntry.getName());
+
+                
+                try{
+                    File f = new File(folderName + "/" + fileEntry.getName());
+                    Scanner scFile = new Scanner(f);
+                    dataSize = scFile.nextInt();
+                    
+                    scFile.close();
+
+                }catch (FileNotFoundException e){
+                    System.err.println("File not found.");
+                    e.printStackTrace();
+                }
+
+                
+                
+
+                if (records != null){
+
+                    
+
+                    startTime = 0;
+                    endTime = 0;
+
+                    //Sort algo chosen
+                    switch(inputSortAlgo){
+                        case 1:
+                            if(dataSize > NS_AND_MS_BOUND){
+                                // Record start time
+                                startTime = System.currentTimeMillis();
+                                SA.insertionSort(records, records.length);
+                                // Record end time
+                                endTime = System.currentTimeMillis();
+                            }else{
+                                // Record start time
+                                startTime = System.nanoTime();
+                                SA.insertionSort(records, records.length);
+                                // Record end time
+                                endTime = System.nanoTime();
+                            }
+
+
+                            break;
+
+                        case 2:
+                            if(dataSize > NS_AND_MS_BOUND){
+                                // Record start time
+                                startTime = System.currentTimeMillis();
+                                SA.selectionSort(records, records.length);
+                                // Record end time
+                                endTime = System.currentTimeMillis();
+                            }else{
+                                // Record start time
+                                startTime = System.nanoTime();
+                                SA.selectionSort(records, records.length);
+                                // Record end time
+                                endTime = System.nanoTime();
+                            }
+                            break;
+                        case 3:
+                            if(dataSize > NS_AND_MS_BOUND){
+                                // Record start time
+                                startTime = System.currentTimeMillis();
+                                // Missing one more parameter
+                                //SA.mergeSort(records, records.length);
+                                // Record end time
+                                endTime = System.currentTimeMillis();
+                            }else{
+                                // Record start time
+                                startTime = System.nanoTime();
+                                //SA.mergeSort(records, records.length);
+                                // Record end time
+                                endTime = System.nanoTime();
+                            }
+
+                            break;
+                        case 4:                
+                            if(dataSize > NS_AND_MS_BOUND){
+                                // Record start time
+                                startTime = System.currentTimeMillis();
+                                SA.radixSort(records, records.length);
+                                // Record end time
+                                endTime = System.currentTimeMillis();
+                            }else{
+                                // Record start time
+                                startTime = System.nanoTime();
+                                SA.radixSort(records, records.length);
+                                // Record end time
+                                endTime = System.nanoTime();
+                            }
+                            break;
+                    }
+
+            
+
+                    
+
+
+                    // Display each execution time
+                    if(dataSize > NS_AND_MS_BOUND)
+                    {
+                        System.out.println(Paint.paintTextYellow(endTime-startTime+" ms") );
+                    }
+                    else
+                    {
+                        System.out.println(Paint.paintTextYellow(endTime-startTime+" ns"));
+                    }
+                    
+                    
+                    execTimes[i] = endTime-startTime;
+                    i++;
+
+                } else{
+                    System.out.println("ERROR! Records are empty, please rerun and provide again");
+                }
+                if(inputAllowWrite.equalsIgnoreCase("y"))
+                    md.writeToFile(folderName + "/" + fileEntry.getName(), records, inputSortAlgo);
+
+            }
+        }
+
+        sumTimes = 0;
+        for(i=0; i < arrSize; i++){
+            sumTimes += execTimes[i];
+        }
+        if(arrSize != 0)
+            aveTimes = sumTimes/arrSize;
+        else
+            aveTimes = 0;
+            System.out.println();
+        Paint.turnOnCyan();
+        if(dataSize > NS_AND_MS_BOUND){
+            System.out.println("For a data size of " + Paint.paintTextGreen(dataSize+"") +", the average execution time is: " + aveTimes + " ms");
+        }else{
+            System.out.println("For a data size of " + Paint.paintTextGreen(dataSize+"") +", the average execution time is: " + aveTimes + " ns");
+        }
+
+    }
     public static void main(String[] args) {
         // TODO: Use this method to run your experiments.
 
@@ -36,22 +218,82 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         
-
+        String userInputAllowWrite;
         String filePath;
         String filePathSubTxt;
         String userInputC;
+
         
         int dataSize;
         int inputSortAlgo;
         int arrSize;
         int loopSize;
-
+        int inputTestType;
+        
         long[] execTimes;
         long sumTimes;
         long aveTimes;
 
+
+        inputTestType = 0;
+        while(inputTestType == 0){
+            System.out.println("What type of testing: ");
+            System.out.println("[1] - Run a file repeatedly");
+            System.out.println("[2] -  Run all files in a folder");
+            System.out.print("Input: ");
+
+            inputTestType = sc.nextInt();
+            sc.nextLine();
+
+            if(inputTestType != 1 && inputTestType != 2){
+                
+                Paint.turnOnOrange();
+                System.out.println("ERROR! Please input 1 or 2");
+                Paint.turnOffColor();
+            }
+
+
+        }
         userInputC = "y";
-        while(userInputC.equalsIgnoreCase("y"))
+        System.out.println();
+        while(userInputC.equalsIgnoreCase("y") && inputTestType == 2){
+            
+            inputSortAlgo = 0;
+            while(inputSortAlgo <= 0 || inputSortAlgo > 4){
+
+                System.out.println("Choose from the following: ");
+                System.out.println("[1] - Insertion Sort");
+                System.out.println("[2] - Selection Sort");
+                System.out.println("[3] - Merge Sort");
+                System.out.println("[4] - Radix Sort");
+
+                inputSortAlgo = sc.nextInt();
+                sc.nextLine(); // remove newline
+
+                if(inputSortAlgo > 4 || inputSortAlgo <= 0)
+                    System.out.println("Error input!");
+
+            }
+            System.out.print("Folder name location of the files to be read: " + FOLDER_DIREC);
+            
+            File fFolder = new File(FOLDER_DIREC);
+            System.out.print("Do you want to also write the result sorted result into SortResult Folder? (Y/N): ");
+            userInputAllowWrite = sc.nextLine();
+            
+            readFolders(fFolder, inputSortAlgo, FOLDER_DIREC, userInputAllowWrite);
+
+
+            System.out.println();
+            System.out.print("Run again? (Y/N): ");
+            userInputC = sc.nextLine();
+
+
+        }
+
+
+
+        
+        while(userInputC.equalsIgnoreCase("y") && inputTestType == 1)
         {
             System.out.print("Enter the relative filepath of your file, should end with '.txt': ");
             filePath = sc.nextLine();
@@ -259,7 +501,9 @@ public class Main {
             if(!userInputC.equalsIgnoreCase("y"))
                 records = null;
         }
-        System.out.print("Run again? (Y/N): ");
+        
+        
+        
 
 
 

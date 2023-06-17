@@ -28,27 +28,29 @@ public class SortingAlgorithms {
         // TODO: Implement this sorting algorithm here.
 
 
-        Record rSelected;
-        int i;
-        int j;
+        Record rSelected;                       //1
+        int i;                                  //1
+        int j;                                  //1
 
  
 
 
-        for(i=1; i<n;i++){
+        for(i=1; i<n;i++){                      //n
 
-            rSelected = arr[i];
+            rSelected = arr[i];                 //1
 
-            for(j=i-1; j>=0; j--){
+            for(j=i-1; j>=0; j--){              // i-1 to 0
 
 
                 // Checking if the selected number is greate than the one beside it
-                if(rSelected.getIdNumber() < arr[j].getIdNumber()){
-                    swapRec(arr, j, j+1);
+
+                // If else if block: 3
+                if(rSelected.getIdNumber() < arr[j].getIdNumber()){             //1
+                    swapRec(arr, j, j+1);                                       //1
                 }
-                else if(rSelected.getIdNumber() > arr[j].getIdNumber()){
-                    arr[j+1] = rSelected;
-                    j = -1;
+                else if(rSelected.getIdNumber() > arr[j].getIdNumber()){        //1
+                    arr[j+1] = rSelected;                                       //1
+                    break;                                                      //1
                 }
 
             }
@@ -65,9 +67,9 @@ public class SortingAlgorithms {
 
     public void selectionSort(Record[] arr, int n) {
         // TODO: Implement this sorting algorithm here.
-        int nMin;
-        int i;
-        int j;
+        int nMin;                                                           //1
+        int i;                                                              //1
+        int j;                                                              //1
 
 
 
