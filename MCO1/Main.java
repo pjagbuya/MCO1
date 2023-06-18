@@ -125,14 +125,15 @@ public class Main {
                             if(dataSize > NS_AND_MS_BOUND){
                                 // Record start time
                                 startTime = System.currentTimeMillis();
-                                // Missing one more parameter
-                                //SA.mergeSort(records, records.length);
+                                
+                                SA.mergeSort(records, 0, records.length-1);
+
                                 // Record end time
                                 endTime = System.currentTimeMillis();
                             }else{
                                 // Record start time
                                 startTime = System.nanoTime();
-                                //SA.mergeSort(records, records.length);
+                                SA.mergeSort(records, 0, records.length-1);
                                 // Record end time
                                 endTime = System.nanoTime();
                             }
@@ -234,272 +235,293 @@ public class Main {
         long sumTimes;
         long aveTimes;
 
-
-        inputTestType = 0;
-        while(inputTestType == 0){
-            System.out.println("What type of testing: ");
-            System.out.println("[1] - Run a file repeatedly");
-            System.out.println("[2] -  Run all files in a folder");
-            System.out.print("Input: ");
-
-            inputTestType = sc.nextInt();
-            sc.nextLine();
-
-            if(inputTestType != 1 && inputTestType != 2){
-                
-                Paint.turnOnOrange();
-                System.out.println("ERROR! Please input 1 or 2");
-                Paint.turnOffColor();
-            }
-
-
-        }
         userInputC = "y";
-        System.out.println();
-        while(userInputC.equalsIgnoreCase("y") && inputTestType == 2){
-            
-            inputSortAlgo = 0;
-            while(inputSortAlgo <= 0 || inputSortAlgo > 4){
 
-                System.out.println("Choose from the following: ");
-                System.out.println("[1] - Insertion Sort");
-                System.out.println("[2] - Selection Sort");
-                System.out.println("[3] - Merge Sort");
-                System.out.println("[4] - Radix Sort");
+        while(userInputC.equalsIgnoreCase("y"))
+        {   
+            inputTestType = 0;
+            while(inputTestType == 0){
+                System.out.println("What type of testing: ");
+                System.out.println("[1] - Run a file repeatedly");
+                System.out.println("[2] -  Run all files in a folder");
+                System.out.print("Input: ");
 
-                inputSortAlgo = sc.nextInt();
-                sc.nextLine(); // remove newline
+                inputTestType = sc.nextInt();
+                sc.nextLine();
 
-                if(inputSortAlgo > 4 || inputSortAlgo <= 0)
-                    System.out.println("Error input!");
-
-            }
-            System.out.print("Folder name location of the files to be read: " + FOLDER_DIREC);
-            
-            File fFolder = new File(FOLDER_DIREC);
-            System.out.print("Do you want to also write the result sorted result into SortResult Folder? (Y/N): ");
-            userInputAllowWrite = sc.nextLine();
-            
-            readFolders(fFolder, inputSortAlgo, FOLDER_DIREC, userInputAllowWrite);
-
-
-            System.out.println();
-            System.out.print("Run again? (Y/N): ");
-            userInputC = sc.nextLine();
-
-
-        }
-
-
-
-        
-        while(userInputC.equalsIgnoreCase("y") && inputTestType == 1)
-        {
-            System.out.print("Enter the relative filepath of your file, should end with '.txt': ");
-            filePath = sc.nextLine();
-
-    
-            
-
-            /**
-             * This section just checks if you have .txt or not
-             */
-            // Passes the maybe the potential .txt substring if it contains oone
-            if(filePath.indexOf('.', 0) != -1)
-                filePathSubTxt =filePath.substring(filePath.indexOf('.', 0), filePath.length());
-            else
-                filePathSubTxt = "N/A";
-
-            // Check .txt substing if found, else appen a .txt
-            if ( !filePathSubTxt.equals(".txt") ){
-                filePath += ".txt";
-            }
-
-
-            
-            Record[] records = fr.readFile(filePath);
-            
-
-
-            System.out.println();
-
-
-            inputSortAlgo = 0;
-
-
-            while(inputSortAlgo <= 0 || inputSortAlgo > 4){
-
-                System.out.println("Choose from the following: ");
-                System.out.println("[1] - Insertion Sort");
-                System.out.println("[2] - Selection Sort");
-                System.out.println("[3] - Merge Sort");
-                System.out.println("[4] - Radix Sort");
-
-                inputSortAlgo = sc.nextInt();
-                sc.nextLine(); // remove newline
-
-                if(inputSortAlgo > 4 || inputSortAlgo <= 0)
-                    System.out.println("Error input!");
-
-            }
-            File f = new File(filePath);
-
-            
-    
-            System.out.print("How many times do we execute this sort algo: ");
-            arrSize = sc.nextInt();
-            sc.nextLine(); //get newline
-            execTimes = new long[arrSize];
-            i = 0;
-
-            dataSize = 0;
-            try{
-                Scanner scFile = new Scanner(f);
-                dataSize = scFile.nextInt();
-                scFile.close();
-
-            }catch (FileNotFoundException e){
-                System.err.println("File not found.");
-                e.printStackTrace();
-            }
-
-            loopSize = arrSize;
-
-            System.out.println("Execution time of sorting least to greatest(top to bot): ");
-            while(loopSize> 0){
-                // Change this code to test different sorting algos
-                // Sorts the records using insertion sort
-                
-                if (records != null){
-
+                if(inputTestType != 1 && inputTestType != 2){
                     
-
-                    startTime = 0;
-                    endTime = 0;
-
-                    //Sort algo chosen
-                    switch(inputSortAlgo){
-                        case 1:
-                            if(dataSize > NS_AND_MS_BOUND){
-                                // Record start time
-                                startTime = System.currentTimeMillis();
-                                SA.insertionSort(records, records.length);
-                                // Record end time
-                                endTime = System.currentTimeMillis();
-                            }else{
-                                // Record start time
-                                startTime = System.nanoTime();
-                                SA.insertionSort(records, records.length);
-                                // Record end time
-                                endTime = System.nanoTime();
-                            }
-
-
-                            break;
-
-                        case 2:
-                            if(dataSize > NS_AND_MS_BOUND){
-                                // Record start time
-                                startTime = System.currentTimeMillis();
-                                SA.selectionSort(records, records.length);
-                                // Record end time
-                                endTime = System.currentTimeMillis();
-                            }else{
-                                // Record start time
-                                startTime = System.nanoTime();
-                                SA.selectionSort(records, records.length);
-                                // Record end time
-                                endTime = System.nanoTime();
-                            }
-                            break;
-                        case 3:
-                            if(dataSize > NS_AND_MS_BOUND){
-                                // Record start time
-                                startTime = System.currentTimeMillis();
-                                // Missing one more parameter
-                                //SA.mergeSort(records, records.length);
-                                // Record end time
-                                endTime = System.currentTimeMillis();
-                            }else{
-                                // Record start time
-                                startTime = System.nanoTime();
-                                //SA.mergeSort(records, records.length);
-                                // Record end time
-                                endTime = System.nanoTime();
-                            }
-
-                            break;
-                        case 4:                
-                            if(dataSize > NS_AND_MS_BOUND){
-                                // Record start time
-                                startTime = System.currentTimeMillis();
-                                SA.radixSort(records, records.length);
-                                // Record end time
-                                endTime = System.currentTimeMillis();
-                            }else{
-                                // Record start time
-                                startTime = System.nanoTime();
-                                SA.radixSort(records, records.length);
-                                // Record end time
-                                endTime = System.nanoTime();
-                            }
-                            break;
-                    }
-
-            
-
-                    
-
-
-                    // Display each execution time
-                    if(dataSize > NS_AND_MS_BOUND)
-                    {
-                        System.out.println(Paint.paintTextYellow(endTime-startTime+" ms") );
-                    }
-                    else
-                    {
-                        System.out.println(Paint.paintTextYellow(endTime-startTime+" ns"));
-                    }
-                    
-                    
-                    execTimes[i] = endTime-startTime;
-
-                } else{
-                    System.out.println("ERROR! Records are empty, please rerun and provide again");
+                    Paint.turnOnOrange();
+                    System.out.println("ERROR! Please input 1 or 2");
+                    Paint.turnOffColor();
                 }
 
-                
-                
-                i++;
-      
-                loopSize -= 1;
-                records = fr.readFile(filePath);
-            }
 
-            sumTimes = 0;
-            for(i=0; i < arrSize; i++){
-                sumTimes += execTimes[i];
             }
-            aveTimes = sumTimes/arrSize;
-            System.out.println();
-            Paint.turnOnCyan();
-            if(dataSize > NS_AND_MS_BOUND){
-                System.out.println("The average execution time is: " + aveTimes + " ms");
-            }else{
-                System.out.println("The average execution time is: " + aveTimes + " ns");
-            }
-
-            Paint.turnOffColor();
-            System.out.println();
             
-            md.writeToFile(filePath, records, inputSortAlgo);
+            System.out.println();
+            if(inputTestType == 2){
+                
+                inputSortAlgo = 0;
+                while(inputSortAlgo <= 0 || inputSortAlgo > 4){
 
-            System.out.print("Run again? (Y/N): ");
-            userInputC = sc.nextLine();
+                    System.out.println("Choose from the following: ");
+                    System.out.println("[1] - Insertion Sort");
+                    System.out.println("[2] - Selection Sort");
+                    System.out.println("[3] - Merge Sort");
+                    System.out.println("[4] - Radix Sort");
 
-            // Cleanup section
-            if(!userInputC.equalsIgnoreCase("y"))
-                records = null;
+                    inputSortAlgo = sc.nextInt();
+                    sc.nextLine(); // remove newline
+
+                    if(inputSortAlgo > 4 || inputSortAlgo <= 0)
+                        System.out.println("Error input!");
+
+                }
+                System.out.println("Folder name location of the files to be read: " + FOLDER_DIREC);
+                
+                File fFolder = new File(FOLDER_DIREC);
+                System.out.print("Do you want to also write the result sorted result into SortResult Folder? (Y/N): ");
+                userInputAllowWrite = sc.nextLine();
+                
+                readFolders(fFolder, inputSortAlgo, FOLDER_DIREC, userInputAllowWrite);
+
+
+                System.out.println();
+
+
+
+            }
+
+
+
+            
+            else if(inputTestType == 1)
+            {
+                System.out.print("Enter the relative filepath of your file, should end with '.txt': ");
+                filePath = sc.nextLine();
+
+        
+                
+
+                /**
+                 * This section just checks if you have .txt or not
+                 */
+                // Passes the maybe the potential .txt substring if it contains oone
+                if(filePath.indexOf('.', 0) != -1)
+                    filePathSubTxt =filePath.substring(filePath.indexOf('.', 0), filePath.length());
+                else
+                    filePathSubTxt = "N/A";
+
+                // Check .txt substing if found, else appen a .txt
+                if ( !filePathSubTxt.equals(".txt") ){
+                    filePath += ".txt";
+                }
+
+
+                
+                Record[] records = fr.readFile(filePath);
+                
+
+
+                System.out.println();
+
+
+                inputSortAlgo = 0;
+
+
+                while(inputSortAlgo <= 0 || inputSortAlgo > 4){
+
+                    System.out.println("Choose from the following: ");
+                    System.out.println("[1] - Insertion Sort");
+                    System.out.println("[2] - Selection Sort");
+                    System.out.println("[3] - Merge Sort");
+                    System.out.println("[4] - Radix Sort");
+
+                    inputSortAlgo = sc.nextInt();
+                    sc.nextLine(); // remove newline
+
+                    if(inputSortAlgo > 4 || inputSortAlgo <= 0)
+                        System.out.println("Error input!");
+
+                }
+                File f = new File(filePath);
+
+                
+        
+                System.out.print("How many times do we execute this sort algo: ");
+                arrSize = sc.nextInt();
+                sc.nextLine(); //get newline
+                execTimes = new long[arrSize];
+                i = 0;
+
+                dataSize = 0;
+                try{
+                    Scanner scFile = new Scanner(f);
+                    dataSize = scFile.nextInt();
+                    scFile.close();
+
+                }catch (FileNotFoundException e){
+                    System.err.println("File not found.");
+                    e.printStackTrace();
+                }
+
+                loopSize = arrSize;
+
+                System.out.println("Execution time of sorting least to greatest(top to bot): ");
+                while(loopSize> 0){
+
+                    // Reset original position of records
+                    records = fr.readFile(filePath);
+
+                    // Change this code to test different sorting algos
+                    // Sorts the records using insertion sort
+                    
+                    if (records != null){
+
+                        
+
+                        startTime = 0;
+                        endTime = 0;
+
+                        //Sort algo chosen
+                        switch(inputSortAlgo){
+                            case 1:
+                                if(dataSize > NS_AND_MS_BOUND){
+                                    // Record start time
+                                    startTime = System.currentTimeMillis();
+                                    SA.insertionSort(records, records.length);
+                                    // Record end time
+                                    endTime = System.currentTimeMillis();
+                                }else{
+                                    // Record start time
+                                    startTime = System.nanoTime();
+                                    SA.insertionSort(records, records.length);
+                                    // Record end time
+                                    endTime = System.nanoTime();
+                                }
+
+
+                                break;
+
+                            case 2:
+                                if(dataSize > NS_AND_MS_BOUND){
+                                    // Record start time
+                                    startTime = System.currentTimeMillis();
+                                    SA.selectionSort(records, records.length);
+                                    // Record end time
+                                    endTime = System.currentTimeMillis();
+                                }else{
+                                    // Record start time
+                                    startTime = System.nanoTime();
+                                    SA.selectionSort(records, records.length);
+                                    // Record end time
+                                    endTime = System.nanoTime();
+                                }
+                                break;
+                            case 3:
+                                if(dataSize > NS_AND_MS_BOUND){
+                                    // Record start time
+                                    startTime = System.currentTimeMillis();
+                                    SA.mergeSort(records,0, records.length-1);
+                                    endTime = System.currentTimeMillis();
+                                    // Record end time
+                                }else{
+                                    // Record start time
+                                    startTime = System.nanoTime();
+                                    SA.mergeSort(records,0, records.length-1);
+                                    // Record end time
+                                    endTime = System.nanoTime();
+                                }
+
+                                break;
+                            case 4:                
+                                if(dataSize > NS_AND_MS_BOUND){
+                                    // Record start time
+                                    startTime = System.currentTimeMillis();
+                                    SA.radixSort(records, records.length);
+                                    // Record end time
+                                    endTime = System.currentTimeMillis();
+                                }else{
+                                    // Record start time
+                                    startTime = System.nanoTime();
+                                    SA.radixSort(records, records.length);
+                                    // Record end time
+                                    endTime = System.nanoTime();
+                                }
+                                break;
+                        }
+
+                
+
+                        
+
+
+                        // Display each execution time
+                        if(dataSize > NS_AND_MS_BOUND)
+                        {
+                            System.out.println(Paint.paintTextYellow(endTime-startTime+" ms") );
+                        }
+                        else
+                        {
+                            System.out.println(Paint.paintTextYellow(endTime-startTime+" ns"));
+                        }
+                        
+                        
+                        execTimes[i] = endTime-startTime;
+
+                    } else{
+                        System.out.println("ERROR! Records are empty, please rerun and provide again");
+                    }
+
+                    
+                    
+                    i++;
+        
+                    loopSize -= 1;
+                    
+                }
+
+                sumTimes = 0;
+                for(i=0; i < arrSize; i++){
+                    sumTimes += execTimes[i];
+                }
+                aveTimes = sumTimes/arrSize;
+                System.out.println();
+                Paint.turnOnCyan();
+
+                switch(inputSortAlgo){
+                    case 1:
+                        System.out.println("Insertion Sort");
+                        break;
+                    case 2:
+                        System.out.println("Selection Sort");
+                        break;
+                    case 3:
+                        System.out.println("Merge Sort");
+                        break;
+                    case 4:
+                        System.out.println("Radix Sort");
+                        break;
+                }
+                if(dataSize > NS_AND_MS_BOUND){
+                    System.out.println("The average execution time is: " + aveTimes + " ms");
+                }else{
+                    System.out.println("The average execution time is: " + aveTimes + " ns");
+                }
+
+                Paint.turnOffColor();
+                System.out.println();
+                
+                md.writeToFile(filePath, records, inputSortAlgo);
+
+                System.out.print("Run again? (Y/N): ");
+                userInputC = sc.nextLine();
+
+                // Cleanup section
+                if(!userInputC.equalsIgnoreCase("y"))
+                    records = null;
+            }
         }
         
         

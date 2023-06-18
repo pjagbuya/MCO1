@@ -95,25 +95,40 @@ public class SortingAlgorithms {
     }
 
     private void merge(Record arr[], int p, int r, int mid) {
-        int size1 = mid - p + 1;
-        int size2 = r - mid;
-        Record temp1[] = new Record[size1];
-        Record temp2[] = new Record[size2];
-        int i;
- 
-        for (i = 0; i < size1 || i < size2; i++) {
-            if (i < size1)
-                temp1[i] = arr[p + i];
+        int size1 = mid - p + 1;                //1
+        int size2 = r - mid;                    //1
+        Record temp1[] = new Record[size1];     //1
+        Record temp2[] = new Record[size2];     //1
+        int i;                                  //1
+        
+
+
+        // for (i = 0; i < size1; i++) { 
+        //     temp1[i] = arr[p + i]; 
+        // } 
+
+        // for (i = 0; i < size2; i++) { 
+
+        //     temp2[i] = arr[mid + 1 + i]; 
+        // }
+        
+        for (i = 0; i < size1 || i < size2; i++) {      //(n + 1)(3)
+
+            if (i < size1)                              //2(n)
+                temp1[i] = arr[p + i];                  //
             
-            if (i < size2)
+            if (i < size2)                              //2n
                 temp2[i] = arr[mid + i + 1];
         }
  
-        i = 0;
-        int j = 0;
-        int k = p;
-        while (i < size1 && j < size2) {
-            if (temp1[i].getIdNumber() < temp2[j].getIdNumber()) {
+        i = 0;                                          //1
+        int j = 0;                                      //1
+        int k = p;                                      //1
+
+
+        while (i < size1 && j < size2) {                //(n+3) -2 (minus 2 due to the second condition will not be checked when it is still less and will not check when it reaches cap)
+
+            if (temp1[i].getIdNumber() < temp2[j].getIdNumber()) {  //3(n)
                 arr[k] = temp1[i];
                 i++;
             }
@@ -121,29 +136,36 @@ public class SortingAlgorithms {
                 arr[k] = temp2[j];
                 j++;
             }
-            k++;
+
+            k++;                                                    //1(n)
         }
  
-        while (i < size1) {
-            arr[k] = temp1[i];
-            i++;
-            k++;
+        while (i < size1) {                                 //0
+           
+            arr[k] = temp1[i];                              //0
+            i++;                                            //0
+            k++;                                            //0
         }
  
-        while (j < size2) {
-            arr[k] = temp2[j];
-            j++;
-            k++;
+        while (j < size2) {                                 //2
+            
+            arr[k] = temp2[j];                              //1
+            j++;                                            //1
+            k++;                                            //1
         }
     }
 
     public void mergeSort(Record[] arr, int p, int r) {
-        int mid = p + (r - p) / 2;
+        
 
-        if (p < r) {
-            mergeSort(arr, p, mid);
-            mergeSort(arr, mid + 1, r);
-            merge(arr, p, r, mid);
+        if (p < r) {                           // 1
+            int mid = p + (r - p) / 2;              // 1
+            mergeSort(arr, p, mid);            // T(n/2) )
+            mergeSort(arr, mid + 1, r);        // T(n/2)
+                                                // T
+            merge(arr, p, r, mid);             
+                                                //34n + 48
+                                                
         }
     }
 
