@@ -1,7 +1,7 @@
 public class Node{
     private String sName;
     private long nNum;
-    private static int nCount;
+    private static int nCount = 0;
     
     public Node(String s, long n){
         sName = s;
@@ -22,6 +22,10 @@ public class Node{
 
     public void setNum(long n){
         nNum = n;
+    }
+
+    public static void resetCount(){
+        nCount = 0;
     }
 
     @Override
