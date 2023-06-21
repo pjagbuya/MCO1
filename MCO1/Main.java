@@ -160,7 +160,7 @@ public class Main {
 
                     
 
-
+                    Paint.turnOffColor();
                     // Display each execution time
                     if(dataSize > NS_AND_MS_BOUND)
                     {
@@ -195,9 +195,9 @@ public class Main {
             System.out.println();
         Paint.turnOnCyan();
         if(dataSize > NS_AND_MS_BOUND){
-            System.out.println("For a data size of " + Paint.paintTextGreen(dataSize+"") +", the average execution time is: " + aveTimes + " ms");
+            System.out.println("For a data size of " + Paint.paintTextGreen(dataSize+"") +", the average execution time is: " + Paint.paintTextCyan(aveTimes+" ms"));
         }else{
-            System.out.println("For a data size of " + Paint.paintTextGreen(dataSize+"") +", the average execution time is: " + aveTimes + " ns");
+            System.out.println("For a data size of " + Paint.paintTextGreen(dataSize+"") +", the average execution time is: " + Paint.paintTextCyan(aveTimes+" ns"));
         }
 
     }
@@ -289,10 +289,13 @@ public class Main {
 
                 System.out.println();
 
-
+                System.out.print("Continue? (Y/N): ");
+                if(sc.nextLine().equalsIgnoreCase("N"))
+                {
+                    return;
+                }
 
             }
-
 
 
             
@@ -504,13 +507,14 @@ public class Main {
                         System.out.println("Radix Sort");
                         break;
                 }
+                Paint.turnOffColor();
                 if(dataSize > NS_AND_MS_BOUND){
                     System.out.println("The average execution time is: " + aveTimes + " ms");
                 }else{
                     System.out.println("The average execution time is: " + aveTimes + " ns");
                 }
 
-                Paint.turnOffColor();
+               
                 System.out.println();
                 
                 md.writeToFile(filePath, records, inputSortAlgo);

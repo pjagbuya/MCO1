@@ -1,0 +1,74 @@
+What type of testing: 
+[1] - Run a file repeatedly
+[2] -  Run all files in a folder
+Input: 
+Continue? (Y/N): Enter the relative filepath of your file, should end with '.txt': 
+Choose from the following: 
+[1] - Insertion Sort
+[2] - Selection Sort
+[3] - Merge Sort
+[4] - Radix Sort
+Error input!
+Choose from the following: 
+[1] - Insertion Sort
+[2] - Selection Sort
+[3] - Merge Sort
+[4] - Radix Sort
+What type of testing: 
+[1] - Run a file repeatedly
+[2] -  Run all files in a folder
+Input: 
+Enter the relative filepath of your file, should end with '.txt': 
+Choose from the following: 
+[1] - Insertion Sort
+[2] - Selection Sort
+[3] - Merge Sort
+[4] - Radix Sort
+How many times do we execute this sort algo: Execution time of sorting least to greatest(top to bot): 
+[1;33m1082 ms[0m
+[1;33m769 ms[0m
+[1;33m454 ms[0m
+[1;33m1622 ms[0m
+[1;33m1134 ms[0m
+[1;33m872 ms[0m
+[1;33m649 ms[0m
+[1;33m577 ms[0m
+[1;33m1574 ms[0m
+[1;33m1151 ms[0m
+[1;33m825 ms[0m
+[1;33m599 ms[0m
+[1;33m1535 ms[0m
+[1;33m1531 ms[0m
+[1;33m1051 ms[0m
+[1;33m813 ms[0m
+[1;33m784 ms[0m
+[1;33m1732 ms[0m
+[1;33m1655 ms[0m
+[1;33m1361 ms[0m
+[1;33m871 ms[0m
+[1;33m706 ms[0m
+[1;33m1621 ms[0m
+[1;33m1453 ms[0m
+[1;33m1038 ms[0m
+[1;33m780 ms[0m
+[1;33m550 ms[0m
+[1;33m1455 ms[0m
+[1;33m1305 ms[0m
+[1;33m939 ms[0m
+[1;33m695 ms[0m
+[1;33m472 ms[0m
+[1;33m1477 ms[0m
+[1;33m1334 ms[0m
+[1;33m925 ms[0m
+[1;33m730 ms[0m
+[1;33m479 ms[0m
+[1;33m1444 ms[0m
+[1;33m1303 ms[0m
+[1;33m920 ms[0m
+[1;33m706 ms[0m
+[1;33m500 ms[0m
+[1;33m1520 ms[0m
+[1;33m1587 ms[0m
+[1;33m942 ms[0m
+[1;33m783 ms[0m
+[1;33m518 ms[0m

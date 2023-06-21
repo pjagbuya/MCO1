@@ -99,7 +99,7 @@ public class SortingAlgorithms {
         int size2 = r - mid;                    //1
         Record temp1[] = new Record[size1];     //1
         Record temp2[] = new Record[size2];     //1
-        int i;                                  //1
+        int i;                                  
         
 
 
