@@ -175,26 +175,24 @@ public class SortingAlgorithms {
      * records
      */
 
-
     /**
-     * T(n) = k(11n + 35) + 4n + 4, where k = max no. of digits in 
+     * T(n) = k(11n + 39) + 4n + 6, where k = max no. of digits in 
      * <code>arr</code>.
      */
     public void radixSort(Record[] arr, int n) {
         int arrMax = max(arr, n);                                                   // 4n + 4
 
-
-        for (int k = 1; arrMax / k > 0; k *= 10) {                                  // k + 1, where k = max no. of digits in arr
-            countingSort(arr, n, k);                                                // (k)(11n + 34)
+        for (int k = 1; arrMax / k > 0; k *= 10) {                                  // 1 + (k + 1) + k = 2k + 2, where k = max no. of digits in arr
+            countingSort(arr, n, k);                                                // (k)(11n + 37)
         } 
     }
 
     /**
      * Implemented for <code>radixSort()</code>.
-     * T(n) = 11n + 34
+     * T(n) = 11n + 37
      */
     private void countingSort(Record[] arr, int n, int k) {       
-        int i;                                                                      // 1
+        int i;
         int[] counts = new int[10];                                                 // 1
         Record[] output = new Record[n];                                            // 1
 
@@ -221,12 +219,12 @@ public class SortingAlgorithms {
         // Hence, to keep this algorithm stable, the input array should also be
         // traversed backwards so that the last occurrence in the input will end
         // up at its last position in the output, and so on.
-        for (i = n - 1; i >= 0; i--) {                                              // 1 + (n - 1 - 0 + 2) + (n - 1) = 2n + 1
-            int d = kthDigit(arr[i].getIdNumber(), k);                              // n - 1
+        for (i = n - 1; i >= 0; i--) {                                              // 1 + (n - 1 - 0 + 2) + n = 2n + 2
+            int d = kthDigit(arr[i].getIdNumber(), k);                              // n
 
             // Subtract 1 to get the index since each count starts from 1.
-            output[counts[d] - 1] = arr[i];                                         // n - 1
-            counts[d]--;                                                            // n - 1
+            output[counts[d] - 1] = arr[i];                                         // n
+            counts[d]--;                                                            // n
         }
 
         // Copy the sorted output into the given array. The given array cannot
