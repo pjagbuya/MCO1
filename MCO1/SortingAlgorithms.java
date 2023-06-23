@@ -1,47 +1,22 @@
 /* This file contains implementations of sorting algorithms.
  * You are NOT allowed to modify any of the given method headers.
  */
-
 public class SortingAlgorithms {
-
     /*
      * You may define additional helper functions here if you need to.
      * Make sure the helper functions have the private access modifier, as
      * they will only be used in this class.
      */
 
-
-     // Added a swapRec
-    private void swapRec(Record arr[], int i, int j)
-    {
-
-        Record temp;
-
-        temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-
-
-    }
-
     public void insertionSort(Record[] arr, int n) {
-        // TODO: Implement this sorting algorithm here.
-
-
         Record rSelected;                       //1
         int i;                                  //1
         int j;                                  //1
 
- 
-
-
         for(i=1; i<n;i++){                      //n
-
             rSelected = arr[i];                 //1
 
             for(j=i-1; j>=0; j--){              // i-1 to 0
-
-
                 // Checking if the selected number is greate than the one beside it
 
                 // If else if block: 3
@@ -52,120 +27,88 @@ public class SortingAlgorithms {
                     arr[j+1] = rSelected;                                       //1
                     break;                                                      //1
                 }
-
             }
-
         }
-
-
-        
-
-
-
-
     }
 
     public void selectionSort(Record[] arr, int n) {
-        // TODO: Implement this sorting algorithm here.
-        int nMin;                                                           //1
-        int i;                                                              //1
-        int j;                                                              //1
+        int nMin;                                                           // 1
+        int i;                                                              // 1
+        int j;                                                              // 1
 
-
-
-        for(i = 0; i < n; i++)
-        {
+        for(i = 0; i < n; i++) {
             nMin = i;
 
-            for (j = i + 1; j < n; j++){
-
-                if(arr[nMin].getIdNumber() > arr[j].getIdNumber()){
+            for (j = i + 1; j < n; j++) {
+                if (arr[nMin].getIdNumber() > arr[j].getIdNumber()) {
                     nMin = j;
                 }
-
             }
 
-            if (i != nMin)
-            {
+            if (i != nMin) {
                 swapRec(arr, i, nMin);
             }
         }
+    }
 
+    private void swapRec(Record arr[], int i, int j) {
+        Record temp;
 
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    public void mergeSort(Record[] arr, int p, int r) {
+        if (p < r) {                           // 1
+            int mid = p + (r - p) / 2;         // 1
+            mergeSort(arr, p, mid);            // T(n/2)
+            mergeSort(arr, mid + 1, r);        // T(n/2)
+            merge(arr, p, r, mid);             // 34n + 48                   
+        }
     }
 
     private void merge(Record arr[], int p, int r, int mid) {
-        int size1 = mid - p + 1;                //1
-        int size2 = r - mid;                    //1
-        Record temp1[] = new Record[size1];     //1
-        Record temp2[] = new Record[size2];     //1
+        int size1 = mid - p + 1;                        // 1
+        int size2 = r - mid;                            // 1
+        Record temp1[] = new Record[size1];             // 1
+        Record temp2[] = new Record[size2];             // 1
         int i;                                  
         
-
-
-        // for (i = 0; i < size1; i++) { 
-        //     temp1[i] = arr[p + i]; 
-        // } 
-
-        // for (i = 0; i < size2; i++) { 
-
-        //     temp2[i] = arr[mid + 1 + i]; 
-        // }
-        
-        for (i = 0; i < size1 || i < size2; i++) {      //(n + 1)(3)
-
-            if (i < size1)                              //2(n)
-                temp1[i] = arr[p + i];                  //
+        for (i = 0; i < size1 || i < size2; i++) {      // (n + 1)(3)
+            if (i < size1)                              // 2(n)
+                temp1[i] = arr[p + i];
             
-            if (i < size2)                              //2n
+            if (i < size2)                              // 2n
                 temp2[i] = arr[mid + i + 1];
         }
  
-        i = 0;                                          //1
-        int j = 0;                                      //1
-        int k = p;                                      //1
+        i = 0;                                          // 1
+        int j = 0;                                      // 1
+        int k = p;                                      // 1
 
-
-        while (i < size1 && j < size2) {                //(n+3) -2 (minus 2 due to the second condition will not be checked when it is still less and will not check when it reaches cap)
-
+        while (i < size1 && j < size2) {                // (n+3) - 2 (minus 2 due to the second condition will not be checked when it is still less and will not check when it reaches cap)
             if (temp1[i].getIdNumber() < temp2[j].getIdNumber()) {  //3(n)
                 arr[k] = temp1[i];
                 i++;
-            }
-            else {
+            } else {
                 arr[k] = temp2[j];
                 j++;
             }
 
-            k++;                                                    //1(n)
+            k++;                                         // 1(n)
         }
  
-        while (i < size1) {                                 //0
-           
-            arr[k] = temp1[i];                              //0
-            i++;                                            //0
-            k++;                                            //0
+        while (i < size1) {                              // 0
+            arr[k] = temp1[i];                           // 0
+            i++;                                         // 0
+            k++;                                         // 0
         }
  
-        while (j < size2) {                                 //2
-            
-            arr[k] = temp2[j];                              //1
-            j++;                                            //1
-            k++;                                            //1
-        }
-    }
-
-    public void mergeSort(Record[] arr, int p, int r) {
-        
-
-        if (p < r) {                           // 1
-            int mid = p + (r - p) / 2;              // 1
-            mergeSort(arr, p, mid);            // T(n/2) )
-            mergeSort(arr, mid + 1, r);        // T(n/2)
-                                                // T
-            merge(arr, p, r, mid);             
-                                                //34n + 48
-                                                
+        while (j < size2) {                              // 2
+            arr[k] = temp2[j];                           // 1
+            j++;                                         // 1
+            k++;                                         // 1
         }
     }
 
