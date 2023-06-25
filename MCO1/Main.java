@@ -2,14 +2,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-
-
-// added the ff
 import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Main {
-
     private static final String SORT_DIREC = "SortResult/";
     private static final String INSERT_DIREC = "Insertion/";
     private static final String SELECT_DIREC = "Selection/";
@@ -29,7 +25,6 @@ public class Main {
                 count++;
             }
         }
-    
 
         return count;
     }
@@ -54,16 +49,13 @@ public class Main {
         dataSize = 0;
         execTimes = new long[arrSize];
         i=0;
-
         
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isDirectory()) {
                 readFolders(fileEntry, inputSortAlgo, folderName, inputAllowWrite);
             } else {
-                
                 records = fr.readFile(folderName + "/" + fileEntry.getName());
 
-                
                 try{
                     File f = new File(folderName + "/" + fileEntry.getName());
                     Scanner scFile = new Scanner(f);
@@ -76,13 +68,7 @@ public class Main {
                     e.printStackTrace();
                 }
 
-                
-                
-
                 if (records != null){
-
-                    
-
                     startTime = 0;
                     endTime = 0;
 
@@ -102,8 +88,6 @@ public class Main {
                                 // Record end time
                                 endTime = System.nanoTime();
                             }
-
-
                             break;
 
                         case 2:
@@ -137,7 +121,6 @@ public class Main {
                                 // Record end time
                                 endTime = System.nanoTime();
                             }
-
                             break;
                         case 4:                
                             if(dataSize > NS_AND_MS_BOUND){
@@ -156,31 +139,22 @@ public class Main {
                             break;
                     }
 
-            
-
-                    
-
                     Paint.turnOffColor();
                     // Display each execution time
-                    if(dataSize > NS_AND_MS_BOUND)
-                    {
+                    if(dataSize > NS_AND_MS_BOUND) {
                         System.out.println(Paint.paintTextYellow(endTime-startTime+" ms") );
-                    }
-                    else
-                    {
+                    } else {
                         System.out.println(Paint.paintTextYellow(endTime-startTime+" ns"));
                     }
                     
-                    
                     execTimes[i] = endTime-startTime;
                     i++;
-
-                } else{
+                } else {
                     System.out.println("ERROR! Records are empty, please rerun and provide again");
                 }
+
                 if(inputAllowWrite.equalsIgnoreCase("y"))
                     md.writeToFile(folderName + "/" + fileEntry.getName(), records, inputSortAlgo);
-
             }
         }
 
@@ -188,43 +162,31 @@ public class Main {
         for(i=0; i < arrSize; i++){
             sumTimes += execTimes[i];
         }
+    
         if(arrSize != 0)
             aveTimes = sumTimes/arrSize;
         else
             aveTimes = 0;
-            System.out.println();
+
+        System.out.println();
         Paint.turnOnCyan();
         if(dataSize > NS_AND_MS_BOUND){
             System.out.println("For a data size of " + Paint.paintTextGreen(dataSize+"") +", the average execution time is: " + Paint.paintTextCyan(aveTimes+" ms"));
         }else{
             System.out.println("For a data size of " + Paint.paintTextGreen(dataSize+"") +", the average execution time is: " + Paint.paintTextCyan(aveTimes+" ns"));
         }
-
     }
-    public static void main(String[] args) {
-        // TODO: Use this method to run your experiments.
 
+    public static void main(String[] args) {
         int i;
         long endTime;
         long startTime; 
 
-        Main md = new Main();
-        
-        FileReader fr = new FileReader();
-
-        // Declare sorting algorithm
-        SortingAlgorithms SA = new SortingAlgorithms();
-
-
-        Scanner sc = new Scanner(System.in);
-
-        
         String userInputAllowWrite;
         String filePath;
         String filePathSubTxt;
         String userInputC;
 
-        
         int dataSize;
         int inputSortAlgo;
         int arrSize;
@@ -235,12 +197,17 @@ public class Main {
         long sumTimes;
         long aveTimes;
 
-        userInputC = "y";
+        Scanner sc = new Scanner(System.in);
 
+        Main md = new Main();
+        FileReader fr = new FileReader();
+        SortingAlgorithms SA = new SortingAlgorithms();
+
+        userInputC = "y";
         while(userInputC.equalsIgnoreCase("y"))
         {   
             inputTestType = 0;
-            while(inputTestType == 0){
+            while (inputTestType == 0) {
                 System.out.println("What type of testing: ");
                 System.out.println("[1] - Run a file repeatedly");
                 System.out.println("[2] -  Run all files in a folder");
@@ -249,22 +216,17 @@ public class Main {
                 inputTestType = sc.nextInt();
                 sc.nextLine();
 
-                if(inputTestType != 1 && inputTestType != 2){
-                    
+                if (inputTestType != 1 && inputTestType != 2) {     
                     Paint.turnOnOrange();
                     System.out.println("ERROR! Please input 1 or 2");
                     Paint.turnOffColor();
                 }
-
-
             }
             
             System.out.println();
-            if(inputTestType == 2){
-                
+            if (inputTestType == 2) {
                 inputSortAlgo = 0;
-                while(inputSortAlgo <= 0 || inputSortAlgo > 4){
-
+                while (inputSortAlgo <= 0 || inputSortAlgo > 4) {
                     System.out.println("Choose from the following: ");
                     System.out.println("[1] - Insertion Sort");
                     System.out.println("[2] - Selection Sort");
@@ -274,9 +236,8 @@ public class Main {
                     inputSortAlgo = sc.nextInt();
                     sc.nextLine(); // remove newline
 
-                    if(inputSortAlgo > 4 || inputSortAlgo <= 0)
+                    if (inputSortAlgo > 4 || inputSortAlgo <= 0)
                         System.out.println("Error input!");
-
                 }
                 System.out.println("Folder name location of the files to be read: " + FOLDER_DIREC);
                 
@@ -286,30 +247,17 @@ public class Main {
                 
                 readFolders(fFolder, inputSortAlgo, FOLDER_DIREC, userInputAllowWrite);
 
-
                 System.out.println();
 
                 System.out.print("Continue? (Y/N): ");
-                if(sc.nextLine().equalsIgnoreCase("N"))
-                {
-                    return;
+                if (sc.nextLine().equalsIgnoreCase("N")) {
+                    break;
                 }
-
-            }
-
-
-            
-            else if(inputTestType == 1)
-            {
+            } else if(inputTestType == 1) {
                 System.out.print("Enter the relative filepath of your file, should end with '.txt': ");
                 filePath = sc.nextLine();
 
-        
-                
-
-                /**
-                 * This section just checks if you have .txt or not
-                 */
+                // This section just checks if you have .txt or not
                 // Passes the maybe the potential .txt substring if it contains oone
                 if(filePath.indexOf('.', 0) != -1)
                     filePathSubTxt =filePath.substring(filePath.indexOf('.', 0), filePath.length());
@@ -321,20 +269,11 @@ public class Main {
                     filePath += ".txt";
                 }
 
-
-                
                 Record[] records = fr.readFile(filePath);
-                
-
-
                 System.out.println();
 
-
                 inputSortAlgo = 0;
-
-
-                while(inputSortAlgo <= 0 || inputSortAlgo > 4){
-
+                while (inputSortAlgo <= 0 || inputSortAlgo > 4) {
                     System.out.println("Choose from the following: ");
                     System.out.println("[1] - Insertion Sort");
                     System.out.println("[2] - Selection Sort");
@@ -344,14 +283,12 @@ public class Main {
                     inputSortAlgo = sc.nextInt();
                     sc.nextLine(); // remove newline
 
-                    if(inputSortAlgo > 4 || inputSortAlgo <= 0)
+                    if (inputSortAlgo > 4 || inputSortAlgo <= 0)
                         System.out.println("Error input!");
-
                 }
+
                 File f = new File(filePath);
 
-                
-        
                 System.out.print("How many times do we execute this sort algo: ");
                 arrSize = sc.nextInt();
                 sc.nextLine(); //get newline
@@ -359,31 +296,23 @@ public class Main {
                 i = 0;
 
                 dataSize = 0;
-                try{
+                try {
                     Scanner scFile = new Scanner(f);
                     dataSize = scFile.nextInt();
                     scFile.close();
-
-                }catch (FileNotFoundException e){
+                } catch (FileNotFoundException e) {
                     System.err.println("File not found.");
                     e.printStackTrace();
                 }
 
-                loopSize = arrSize;
-
                 System.out.println("Execution time of sorting least to greatest(top to bot): ");
-                while(loopSize> 0){
-
+                loopSize = arrSize;
+                while(loopSize > 0){
                     // Reset original position of records
                     records = fr.readFile(filePath);
 
                     // Change this code to test different sorting algos
-                    // Sorts the records using insertion sort
-                    
-                    if (records != null){
-
-                        
-
+                    if (records != null) {
                         startTime = 0;
                         endTime = 0;
 
@@ -403,8 +332,6 @@ public class Main {
                                     // Record end time
                                     endTime = System.nanoTime();
                                 }
-
-
                                 break;
 
                             case 2:
@@ -455,34 +382,20 @@ public class Main {
                                 break;
                         }
 
-                
-
-                        
-
-
                         // Display each execution time
-                        if(dataSize > NS_AND_MS_BOUND)
-                        {
+                        if(dataSize > NS_AND_MS_BOUND) {
                             System.out.println(Paint.paintTextYellow(endTime-startTime+" ms") );
-                        }
-                        else
-                        {
+                        } else {
                             System.out.println(Paint.paintTextYellow(endTime-startTime+" ns"));
                         }
-                        
-                        
+                         
                         execTimes[i] = endTime-startTime;
-
-                    } else{
+                    } else {
                         System.out.println("ERROR! Records are empty, please rerun and provide again");
                     }
-
-                    
-                    
+  
                     i++;
-        
                     loopSize -= 1;
-                    
                 }
 
                 sumTimes = 0;
@@ -513,7 +426,6 @@ public class Main {
                 }else{
                     System.out.println("The average execution time is: " + aveTimes + " ns");
                 }
-
                
                 System.out.println();
                 
@@ -528,40 +440,20 @@ public class Main {
             }
         }
         
-        
-        
-
-
-
-
-
         // Code below commented for checking records via System print DO NOT USE FOR MORE THAN 100 DATA
         // for(Record r: test_records2){
 
         //     System.out.println(r.getIdNumber());
         // }
-        
-        // Writes back the sorted Records array
-
 
         // Cleanup section
         sc.close();
-        
-
-
     }
 
-
     private void writeToFile(String filePath, Record[] records, int algoType){
-        int dataSetSize;
-        
+        int dataSetSize = 0;
         File givenFile = new File(filePath);
-    
-
         String newFilePath;
-
-        dataSetSize = 0;
-
 
         try{
             Scanner sc = new Scanner(givenFile);
@@ -572,23 +464,14 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.err.println("File not found.");
             e.printStackTrace();
-
         }
         
-        
-        if(filePath.indexOf('\\') != -1){
-            
-            
-            filePath = filePath.substring(filePath.lastIndexOf('\\')+1);
-            
-            
+        if(filePath.indexOf('\\') != -1){    
+            filePath = filePath.substring(filePath.lastIndexOf('\\')+1);           
         } else if(filePath.indexOf('/') != -1){
-            
-            
             filePath = filePath.substring(filePath.lastIndexOf('/')+1);
         }
      
-
         if (filePath != null){
             // Put the results in a folder "SortResult" and the respective algo result
             switch(algoType){
@@ -609,29 +492,20 @@ public class Main {
             }
             // adds result label
             newFilePath = newFilePath.replace(".txt", "-result.txt");
-    
 
             // Write to file
             try {
-
-                
-
-
                 // File writer will now store it in "SortResult"
                 FileWriter myWriter = new FileWriter(newFilePath);
-                
 
                 // Start by stating the size of the file
                 myWriter.write(dataSetSize + "\n");
-
-
 
                 // write line by line each object in the node
                 for(Record record : records){
                     if (record != null){
                         myWriter.write(record.getIdNumber() + record.getName() + "\n");
                     }
-                    
                 }
                 myWriter.close();
 
@@ -644,9 +518,5 @@ public class Main {
                 e.printStackTrace();
             }
         }
-
-
-        
-       
     }
 }
