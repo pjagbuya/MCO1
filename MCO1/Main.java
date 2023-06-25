@@ -19,7 +19,7 @@ public class Main {
 
     private static final int NS_AND_MS_BOUND = 1000;
 
-    public static int countFiles(final File folder){
+    private static int countFiles(final File folder){
         int count;
         count = 0;
         for (final File fileEntry : folder.listFiles()) {
@@ -34,7 +34,7 @@ public class Main {
         return count;
     }
 
-    public static void readFolders(final File folder, int inputSortAlgo, String folderName, String inputAllowWrite){
+    private static void readFolders(final File folder, int inputSortAlgo, String folderName, String inputAllowWrite){
         Main md = new Main();
         long startTime;
         long endTime;
