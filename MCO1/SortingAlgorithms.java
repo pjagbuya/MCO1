@@ -7,46 +7,64 @@ public class SortingAlgorithms {
      * Make sure the helper functions have the private access modifier, as
      * they will only be used in this class.
      */
+ 
+    // Added a swapRec
+    private void swapRec(Record arr[], int i, int j)
+    {
+        Record temp;
 
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+  
+    /**
+     * (6n^2 + 7n - 5)/2
+     */
     public void insertionSort(Record[] arr, int n) {
-        Record rSelected;                       //1
-        int i;                                  //1
-        int j;                                  //1
+        Record rSelected;                       
+        int i;                                  
+        int j;                                  
 
-        for(i=1; i<n;i++){                      //n
-            rSelected = arr[i];                 //1
-
-            for(j=i-1; j>=0; j--){              // i-1 to 0
+        for(i=1; i<n;i++){                      //2n + 2
+            rSelected = arr[i];                 //n-1
+          
+            for(j=i-1; j>=0; j--){              // (n^2 +n -2)/2 + (n^2 -n)/2 + 1
                 // Checking if the selected number is greate than the one beside it
 
-                // If else if block: 3
-                if(rSelected.getIdNumber() < arr[j].getIdNumber()){             //1
-                    swapRec(arr, j, j+1);                                       //1
+                // If else if block: 4(n(n-1)/2)
+                if(rSelected.getIdNumber() < arr[j].getIdNumber()){             //(n^2 -n)/2
+                    swapRec(arr, j, j+1);                                       //3(n^2 -n)/2
                 }
-                else if(rSelected.getIdNumber() > arr[j].getIdNumber()){        //1
-                    arr[j+1] = rSelected;                                       //1
-                    break;                                                      //1
+                else if(rSelected.getIdNumber() > arr[j].getIdNumber()){        //1(n(n-1)/2)
+                    arr[j+1] = rSelected;                                       //1(n(n-1)/2)
+                    break;                                                      //1(n(n-1)/2)
                 }
             }
         }
     }
 
+    /**
+     * 
+     * T(n) = 2n^2 + 10n - 3
+     */
     public void selectionSort(Record[] arr, int n) {
-        int nMin;                                                           // 1
-        int i;                                                              // 1
-        int j;                                                              // 1
+        int nMin;                                                           
+        int i;                                                              
+        int j;                                                              
 
-        for(i = 0; i < n; i++) {
-            nMin = i;
+        for(i = 0; i < n; i++) {    // 2n + 2              
+            nMin = i;               // n
 
-            for (j = i + 1; j < n; j++) {
-                if (arr[nMin].getIdNumber() > arr[j].getIdNumber()) {
-                    nMin = j;
+            for (j = i + 1; j < n; j++){   // (n^2 + 3n -4)/2 + (n^2 + n-2)/2  +  1
+
+                if(arr[nMin].getIdNumber() > arr[j].getIdNumber()){  //(n^2 + n-2)/2
+                    nMin = j;                                        //(n^2 + n-2)/2
                 }
             }
 
-            if (i != nMin) {
-                swapRec(arr, i, nMin);
+            if (i != nMin) {                //n
+                swapRec(arr, i, nMin);      //3n
             }
         }
     }
@@ -75,40 +93,53 @@ public class SortingAlgorithms {
         Record temp2[] = new Record[size2];             // 1
         int i;                                  
         
-        for (i = 0; i < size1 || i < size2; i++) {      // (n + 1)(3)
-            if (i < size1)                              // 2(n)
-                temp1[i] = arr[p + i];
-            
-            if (i < size2)                              // 2n
-                temp2[i] = arr[mid + i + 1];
-        }
- 
-        i = 0;                                          // 1
-        int j = 0;                                      // 1
-        int k = p;                                      // 1
+        for (i = 0; i < size1; i++) {           //(n+6)/2 + (n+4)/2 + 1
+            temp1[i] = arr[p + i];              //(n+4)/2
+        } 
 
-        while (i < size1 && j < size2) {                // (n+3) - 2 (minus 2 due to the second condition will not be checked when it is still less and will not check when it reaches cap)
-            if (temp1[i].getIdNumber() < temp2[j].getIdNumber()) {  //3(n)
-                arr[k] = temp1[i];
-                i++;
+        for (i = 0; i < size2; i++) {           //(n+4)/2 + (n+2)/2 + 1
+            temp2[i] = arr[mid + 1 + i];        //(n+2)/2
+        }
+        
+        i = 0;                                          //1
+        int j = 0;                                      //1
+        int k = p;                                      //1
+
+        while (i < size1 && j < size2) {                //(n+2)/2
+            if (temp1[i].getIdNumber() < temp2[j].getIdNumber()) {  //n/2
+                arr[k] = temp1[i];                                  //n/2
+                i++;                                                //n/2
             } else {
                 arr[k] = temp2[j];
                 j++;
             }
+          
+            k++;                                                    //n/2
+        }
+ 
+        while (i < size1) {                                 //1
+            arr[k] = temp1[i];                              //0
+            i++;                                            //0
+            k++;                                            //0
+        }
+ 
+        while (j < size2) {                                 //2
+            arr[k] = temp2[j];                              //1
+            j++;                                            //1
+            k++;                                            //1
+        }
+    }
 
-            k++;                                         // 1(n)
-        }
- 
-        while (i < size1) {                              // 0
-            arr[k] = temp1[i];                           // 0
-            i++;                                         // 0
-            k++;                                         // 0
-        }
- 
-        while (j < size2) {                              // 2
-            arr[k] = temp2[j];                           // 1
-            j++;                                         // 1
-            k++;                                         // 1
+    /**
+     * T(n) = (11/2)log_2(n) + 30n -15
+     */
+    public void mergeSort(Record[] arr, int p, int r) {
+        if (p < r) {                           // 1
+            int mid = p + (r - p) / 2;         // 1
+            mergeSort(arr, p, mid);            // T(n/2) )
+            mergeSort(arr, mid + 1, r);        // T(n/2)
+
+            merge(arr, p, r, mid);             // 9n + 15               
         }
     }
 
